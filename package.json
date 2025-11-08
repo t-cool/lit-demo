@@ -1,0 +1,17 @@
+{
+  "name": "lit-demo",
+  "version": "1.0.0",
+  "description": "Lit Web Components デモサイト",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
