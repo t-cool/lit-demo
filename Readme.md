@@ -7,7 +7,7 @@ Google Lit を使った Web コンポーネントのデモンストレーショ�
 Lit は Google が開発した軽量で高速な Web コンポーネントライブラリです。
 このデモサイトでは、Lit の主要な機能を実際に動かしながら学ぶことができます。
 
-**特に注目**: [Shadow DOM と Lit - 薄いラッパーの真実](./shadow-dom-guide.html) では、Litがブラウザ標準のShadow DOM APIに対する「薄いラッパー」であることを、素のJavaScriptとの比較を通じて詳しく解説しています。
+**特に注目**: [Shadow DOM と Lit - 薄いラッパーの真実](https://t-cool.github.io/lit-demo/shadow-dom-guide.html) では、Litがブラウザ標準のShadow DOM APIに対する「薄いラッパー」であることを、素のJavaScriptとの比較を通じて詳しく解説しています。
 
 ## デモ内容
 
