@@ -261,6 +261,188 @@
             <strong>重要:</strong> Shadow DOMはブラウザのネイティブ機能です。Litは単にこれを使いやすくしているだけです。
         </div>
 
+        <h3>Shadow Host と Shadow Root</h3>
+        <p>Shadow DOMは2つの重要な概念で構成されています：</p>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>概念</th>
+                    <th>説明</th>
+                    <th>例</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Shadow Host</strong></td>
+                    <td>Shadow DOMを持つ通常のDOM要素</td>
+                    <td><code>&lt;my-component&gt;</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Shadow Root</strong></td>
+                    <td>Shadow Treeのルートノード（隔離されたDOMツリー）</td>
+                    <td><code>element.shadowRoot</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Shadow Tree</strong></td>
+                    <td>Shadow Root以下のDOM構造全体</td>
+                    <td>内部の<code>&lt;div&gt;</code>や<code>&lt;button&gt;</code>など</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre>// Shadow DOMの基本的な作成方法
+const element = document.querySelector('my-component');
+
+<span class="comment">// Shadow Rootを作成（Shadow Hostに接続）</span>
+const shadowRoot = element.attachShadow({ mode: 'open' });
+
+<span class="comment">// Shadow Tree内に要素を追加</span>
+shadowRoot.innerHTML = \`
+  &lt;style&gt;
+    /* このスタイルは外部に漏れない */
+    p { color: red; }
+  &lt;/style&gt;
+  &lt;p&gt;Shadow DOM内のコンテンツ&lt;/p&gt;
+\`;</pre>
+
+        <h3>カプセル化の具体例：スタイルの分離</h3>
+        <p>Shadow DOMの最大の特徴は、<strong>完全なスタイルの分離</strong>です：</p>
+
+        <div class="code-comparison">
+            <div class="code-block">
+                <div class="code-label vanilla">通常のDOM（Light DOM）</div>
+                <pre>&lt;!-- 外部のスタイルが影響する --&gt;
+&lt;style&gt;
+  p { color: blue; }
+&lt;/style&gt;
+
+&lt;div&gt;
+  &lt;p&gt;この文字は青色&lt;/p&gt;
+&lt;/div&gt;</pre>
+            </div>
+            <div class="code-block">
+                <div class="code-label lit">Shadow DOM</div>
+                <pre>&lt;!-- 外部のスタイルは影響しない --&gt;
+&lt;style&gt;
+  p { color: blue; }
+&lt;/style&gt;
+
+&lt;my-component&gt;
+  #shadow-root
+    &lt;style&gt;p { color: red; }&lt;/style&gt;
+    &lt;p&gt;この文字は赤色（隔離されている）&lt;/p&gt;
+&lt;/my-component&gt;</pre>
+            </div>
+        </div>
+
+        <h3>Shadow DOMのモード</h3>
+        <p><code>attachShadow()</code>には2つのモードがあります：</p>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>モード</th>
+                    <th>説明</th>
+                    <th>アクセス方法</th>
+                    <th>用途</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>mode: 'open'</code></td>
+                    <td>外部からShadow Rootにアクセス可能</td>
+                    <td><code>element.shadowRoot</code>で取得可</td>
+                    <td>一般的な用途（デバッグ可能）</td>
+                </tr>
+                <tr>
+                    <td><code>mode: 'closed'</code></td>
+                    <td>外部からShadow Rootにアクセス不可</td>
+                    <td><code>element.shadowRoot</code>は<code>null</code></td>
+                    <td>完全にカプセル化したい場合</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre>// openモード（推奨）
+const shadowRoot = element.attachShadow({ mode: 'open' });
+console.log(element.shadowRoot); <span class="comment">// ShadowRoot {...}</span>
+
+// closedモード
+const shadowRoot2 = element2.attachShadow({ mode: 'closed' });
+console.log(element2.shadowRoot); <span class="comment">// null（アクセスできない）</span></pre>
+
+        <div class="mapping">
+            <h3>💡 実用上のポイント</h3>
+            <p>ほとんどの場合、<code>mode: 'open'</code>を使用します。Litもデフォルトで<code>'open'</code>を使用しています。<code>'closed'</code>は開発者ツールでのデバッグが困難になるため、特別な理由がない限り避けるべきです。</p>
+        </div>
+
+        <h3>スロット（Slot）: コンテンツの挿入</h3>
+        <p>Shadow DOMでは、<code>&lt;slot&gt;</code>要素を使って外部からコンテンツを挿入できます：</p>
+
+        <pre>// コンポーネント定義
+class MyCard extends HTMLElement {
+  constructor() {
+    super();
+    const shadow = this.attachShadow({ mode: 'open' });
+    shadow.innerHTML = \`
+      &lt;style&gt;
+        .card { border: 1px solid #ccc; padding: 20px; }
+        ::slotted(h2) { color: #667eea; } <span class="comment">/* スロットされた要素のスタイル */</span>
+      &lt;/style&gt;
+      &lt;div class="card"&gt;
+        <span class="comment">&lt;!-- 名前付きスロット --&gt;</span>
+        &lt;slot name="title"&gt;デフォルトタイトル&lt;/slot&gt;
+        <span class="comment">&lt;!-- デフォルトスロット --&gt;</span>
+        &lt;slot&gt;デフォルトコンテンツ&lt;/slot&gt;
+      &lt;/div&gt;
+    \`;
+  }
+}
+
+customElements.define('my-card', MyCard);</pre>
+
+        <pre>&lt;!-- 使用例 --&gt;
+&lt;my-card&gt;
+  <span class="comment">&lt;!-- slot="title"で名前付きスロットに挿入 --&gt;</span>
+  &lt;h2 slot="title"&gt;カスタムタイトル&lt;/h2&gt;
+  <span class="comment">&lt;!-- スロット名がない要素はデフォルトスロットに --&gt;</span>
+  &lt;p&gt;これはカードの本文です&lt;/p&gt;
+&lt;/my-card&gt;</pre>
+
+        <h3>:host 疑似クラス</h3>
+        <p>Shadow DOM内から、Shadow Host（コンポーネント自身）をスタイリングする方法：</p>
+
+        <pre>&lt;style&gt;
+  <span class="comment">/* Shadow Host自身をスタイリング */</span>
+  :host {
+    display: block;
+    border: 1px solid #ddd;
+  }
+
+  <span class="comment">/* 特定のクラスが付いている場合 */</span>
+  :host(.highlighted) {
+    border-color: red;
+  }
+
+  <span class="comment">/* 特定の文脈にある場合 */</span>
+  :host-context(.dark-theme) {
+    background: #333;
+    color: white;
+  }
+&lt;/style&gt;</pre>
+
+        <div class="highlight">
+            <strong>Shadow DOMの主要API まとめ：</strong>
+            <ul style="margin-top: 10px;">
+                <li><code>element.attachShadow({ mode: 'open' })</code> - Shadow Rootを作成</li>
+                <li><code>element.shadowRoot</code> - Shadow Rootへのアクセス（openモードのみ）</li>
+                <li><code>&lt;slot&gt;</code> - 外部コンテンツの挿入ポイント</li>
+                <li><code>:host</code> - Shadow Host（自分自身）のスタイリング</li>
+                <li><code>::slotted(selector)</code> - スロットされた要素のスタイリング</li>
+            </ul>
+        </div>
+
         <h2>2. 素のJavaScript vs Lit - 実装比較</h2>
         <p>同じカウンターコンポーネントを、素のJavaScriptとLitで実装してみましょう。</p>
 
