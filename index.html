@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lit デモサイト - Web コンポーネントを簡単に</title>
+    <title>Web コンポーネント入門</title>
     <style>
         * {
             margin: 0;
@@ -12,237 +12,159 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 40px 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            color: white;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        header p {
-            font-size: 1.2em;
-            opacity: 0.9;
-        }
-
-        .demo-section {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 40px;
+            border-radius: 8px;
         }
 
-        .demo-section h2 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.8em;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #111;
         }
 
-        .demo-section p {
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .code-block {
-            background: #f5f5f5;
-            border-left: 4px solid #667eea;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-
-        .code-block pre {
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
+        h2 {
+            font-size: 1.3em;
+            margin: 2em 0 1em;
             color: #333;
         }
 
-        .demo-box {
-            background: #f9f9f9;
-            border: 2px dashed #667eea;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
+        p {
+            margin-bottom: 1em;
+            color: #666;
         }
 
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        .concept {
+            background: #fafafa;
+            padding: 20px;
             margin: 20px 0;
+            border-left: 2px solid #ddd;
         }
 
-        .feature-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
+        .concept h3 {
+            font-size: 1.1em;
+            margin-bottom: 0.5em;
+            color: #444;
+        }
+
+        .demo {
+            padding: 30px;
+            margin: 20px 0;
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
             text-align: center;
         }
 
-        .feature-card h3 {
-            margin-bottom: 10px;
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        pre {
+            background: #2a2a2a;
+            color: #e8e8e8;
+            padding: 20px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .note {
+            font-size: 0.9em;
+            color: #888;
+            font-style: italic;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🔥 Lit デモサイト</h1>
-            <p>シンプルで高速な Web コンポーネントライブラリ</p>
-        </header>
+        <h1>Web コンポーネント入門</h1>
+        <p>Webコンポーネントは、再利用可能なカスタム要素を作成するためのWeb標準技術です。</p>
 
-        <div class="demo-section">
-            <h2>📖 Lit とは？</h2>
-            <p>
-                Lit は Google が開発した、軽量で高速な Web コンポーネントライブラリです。
-                ネイティブの Web コンポーネント API を簡単に使えるようにしたラッパーで、
-                わずか 5KB のサイズで強力な機能を提供します。
-            </p>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>⚡ 軽量</h3>
-                    <p>わずか 5KB</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🚀 高速</h3>
-                    <p>効率的な更新</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🎯 シンプル</h3>
-                    <p>学習コストが低い</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔧 標準準拠</h3>
-                    <p>Web 標準ベース</p>
-                </div>
-            </div>
+        <h2>基本概念</h2>
+
+        <div class="concept">
+            <h3>1. カスタム要素</h3>
+            <p>HTMLに独自のタグを定義できます。</p>
         </div>
 
-        <div class="demo-section">
-            <h2>1️⃣ 基本的なコンポーネント</h2>
-            <p>Lit の最もシンプルな使い方です。LitElement を継承してカスタム要素を作成します。</p>
-            <div class="code-block">
-                <pre>import { LitElement, html } from 'lit';
-
-class HelloWorld extends LitElement {
-  render() {
-    return html`&lt;h3&gt;こんにちは、Lit！&lt;/h3&gt;`;
-  }
-}</pre>
-            </div>
-            <div class="demo-box">
-                <hello-world></hello-world>
-            </div>
+        <div class="concept">
+            <h3>2. Shadow DOM</h3>
+            <p>スタイルとマークアップをカプセル化し、他の要素と分離します。</p>
         </div>
 
-        <div class="demo-section">
-            <h2>2️⃣ プロパティとリアクティブ性</h2>
-            <p>@property デコレータを使って、リアクティブなプロパティを定義できます。プロパティが変更されると、自動的に再レンダリングされます。</p>
-            <div class="code-block">
-                <pre>class GreetingCard extends LitElement {
-  @property() name = 'ゲスト';
-
-  render() {
-    return html`&lt;p&gt;こんにちは、\${this.name}さん！&lt;/p&gt;`;
-  }
-}</pre>
-            </div>
-            <div class="demo-box">
-                <greeting-card name="太郎"></greeting-card>
-                <greeting-card name="花子"></greeting-card>
-            </div>
+        <div class="concept">
+            <h3>3. リアクティブプロパティ</h3>
+            <p>データの変更を自動的にUIに反映します。</p>
         </div>
 
-        <div class="demo-section">
-            <h2>3️⃣ インタラクティブなコンポーネント</h2>
-            <p>イベントハンドラを使って、ユーザーのアクションに応答できます。カウンターの例を見てみましょう。</p>
-            <div class="code-block">
-                <pre>class CounterButton extends LitElement {
-  @property({ type: Number }) count = 0;
+        <h2>シンプルな例</h2>
+        <p>カウンターコンポーネントで基本を学びましょう。</p>
 
-  _increment() {
-    this.count++;
+        <pre>import { LitElement, html, css } from 'lit';
+
+class CounterButton extends LitElement {
+  static properties = {
+    count: { type: Number }
+  };
+
+  static styles = css\`
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  \`;
+
+  constructor() {
+    super();
+    this.count = 0;
   }
 
   render() {
-    return html`
-      &lt;button @click=\${this._increment}&gt;
+    return html\`
+      &lt;button @click=\${() => this.count++}&gt;
         クリック数: \${this.count}
       &lt;/button&gt;
-    `;
+    \`;
   }
-}</pre>
-            </div>
-            <div class="demo-box">
-                <counter-button></counter-button>
-            </div>
+}
+
+customElements.define('counter-button', CounterButton);</pre>
+
+        <div class="demo">
+            <counter-button></counter-button>
         </div>
 
-        <div class="demo-section">
-            <h2>4️⃣ スタイリング</h2>
-            <p>Lit はスコープ付きスタイルをサポートしています。コンポーネントのスタイルは他のコンポーネントに影響を与えません。</p>
-            <div class="code-block">
-                <pre>class StyledCard extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      padding: 20px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      border-radius: 8px;
-    }
-  `;
-}</pre>
-            </div>
-            <div class="demo-box">
-                <styled-card></styled-card>
-            </div>
-        </div>
+        <p class="note">ボタンをクリックすると、カウントが増えます。プロパティの変更が自動的にUIに反映されます。</p>
 
-        <div class="demo-section">
-            <h2>5️⃣ 入力フォーム</h2>
-            <p>フォーム要素との双方向バインディングの例です。</p>
-            <div class="demo-box">
-                <input-demo></input-demo>
-            </div>
-        </div>
+        <h2>使い方</h2>
+        <p>定義したコンポーネントは、通常のHTML要素のように使用できます。</p>
 
-        <div class="demo-section">
-            <h2>6️⃣ リスト表示</h2>
-            <p>配列データをループして表示する例です。</p>
-            <div class="demo-box">
-                <todo-list></todo-list>
-            </div>
-        </div>
+        <pre>&lt;counter-button&gt;&lt;/counter-button&gt;</pre>
 
-        <div class="demo-section">
-            <h2>🎓 まとめ</h2>
-            <p>
-                Lit を使えば、再利用可能でメンテナンスしやすい Web コンポーネントを簡単に作成できます。
-                フレームワークに依存せず、どこでも使える標準的なコンポーネントを作りましょう！
-            </p>
-        </div>
+        <h2>主な特徴</h2>
+        <ul style="margin-left: 2em; color: #666;">
+            <li style="margin-bottom: 0.5em;">フレームワーク不要で動作</li>
+            <li style="margin-bottom: 0.5em;">どのプロジェクトでも再利用可能</li>
+            <li style="margin-bottom: 0.5em;">標準のWeb技術に基づく</li>
+        </ul>
     </div>
 
     <script type="module" src="/src/main.js"></script>
